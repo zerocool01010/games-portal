@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manuel's rectangle game</title>
+    <link rel="stylesheet" href="index4.css">
+</head>
+<body>
+    <h1>Reglas:</h1>
+    <p>El jugador 1 y 2 deberán ingresar una posición en el tablero. Luego deberán hacer click en el tablero para jugar hasta finalizar el juego.</p>
+    <p>Finaliza cuando uno de los rectángulos rojos interactue con la posición ingresada por uno de los jugadores.</p>
+    <p>Gana el jugador que primero obtiene la interacción.</p>
+    <h2>Colores:</h2>
+    <p>Jugador 1: negro</p>
+    <p>Jugador 2: blanco</p>
+    <form id="form">
+        <h2>Jugador 1</h2>
+        <label for="posicion1">Elegir posicion:</label>
+		<select name="posicion1" value="posicion1" id="posit1" required>
+		<option value="" hidden selected>Seleccione una posición</option>
+		<option value="superior-izquierda">Superior izquierda</option>
+		<option value="superior-centro">Superior centro</option>
+		<option value="superior-derecha">Superior derecha</option>
+		<option value="inferior-izquierda">Inferior izquierda</option>
+		<option value="inferior-centro">Inferior centro</option>
+		<option value="inferior-derecha">Inferior derecha</option>
+		</select>
+        <h2>Jugador 2</h2>
+        <label for="posicion2">Elegir posicion:</label>
+		<select name="posicion2" value="posicion2" id="posit2" required>
+		<option value="" hidden selected>Seleccione una posición</option>
+		<option value="superior-izquierda">Superior izquierda</option>
+		<option value="superior-centro">Superior centro</option>
+		<option value="superior-derecha">Superior derecha</option>
+		<option value="inferior-izquierda">Inferior izquierda</option>
+		<option value="inferior-centro">Inferior centro</option>
+		<option value="inferior-derecha">Inferior derecha</option>
+		</select>
+        <button type="button" id="send">Confirmar</button>
+    </form>
+    <canvas class="canvas" id="canvas" width="600" height="300"></canvas>
+<script src="index4.js"></script>
+</body>
+</html>
