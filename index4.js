@@ -126,7 +126,7 @@ function playerPos(pos, rectC, x, y){
 			
         } 
         else if (pos === "superior-centro") {
-			x = xPosP1+200;
+			x += 200;
             rect = ctx.fillRect(x, y, 20, 20);
 			
         }
