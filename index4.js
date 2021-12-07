@@ -72,10 +72,10 @@ function pickPos(){
 		let posiciones1 = calculatePos1();
 		for (const object of posiciones1){
 			if(object.posicionX1 !== undefined){
-				posX1 = object.posicionX1;
+				posX1 = 90; //hardcodeamos para testear la condicion del empate cumpliendose
 			}
 			if (object.posicionY1 !== undefined){
-				posY1 = object.posicionY1;
+				posY1 = 80; //hardcodeamos para testear la condicion del empate cumpliendose
 			}
 		}
         rectColour = ctx.fillStyle = "black";
@@ -87,10 +87,10 @@ function pickPos(){
 		let posiciones2 = calculatePos2();
 		for (const object of posiciones2){
 			if(object.posicionX2 !== undefined){
-				posX2 = object.posicionX2;
+				posX2 = 95; //hardcodeamos para testear la condicion del empate cumpliendose
 			}
 			if (object.posicionY2 !== undefined){
-				posY2 = object.posicionY2;
+				posY2 = 85; //hardcodeamos para testear la condicion del empate cumpliendose
 			}
 		}
         rectColour = ctx.fillStyle = "white";
@@ -123,17 +123,17 @@ function playerPos(pos, rectC, x, y){
     try {
         if (pos === "superior-izquierda") {
 			rect = ctx.fillRect(x, y, 20, 20);
-			console.log("aqui");
+			
         } 
         else if (pos === "superior-centro") {
 			x = xPosP1+200;
             rect = ctx.fillRect(x, y, 20, 20);
-			console.log("aqui");
+			
         }
         else if (pos === "superior-derecha") {
 			x += 400;
             rect = ctx.fillRect(x, y, 20, 20);
-			console.log("aqui");
+			
         }
         else if (pos === "inferior-izquierda") {
 			x += 150;
