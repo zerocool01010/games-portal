@@ -72,10 +72,10 @@ function pickPos(){
 		let posiciones1 = calculatePos1();
 		for (const object of posiciones1){
 			if(object.posicionX1 !== undefined){
-				posX1 = 90; //hardcodeamos para testear la condicion del empate cumpliendose
+				posX1 = object.posicionX1;
 			}
 			if (object.posicionY1 !== undefined){
-				posY1 = 80; //hardcodeamos para testear la condicion del empate cumpliendose
+				posY1 = object.posicionY1;
 			}
 		}
         rectColour = ctx.fillStyle = "black";
@@ -87,10 +87,10 @@ function pickPos(){
 		let posiciones2 = calculatePos2();
 		for (const object of posiciones2){
 			if(object.posicionX2 !== undefined){
-				posX2 = 95; //hardcodeamos para testear la condicion del empate cumpliendose
+				posX2 = object.posicionX2;
 			}
 			if (object.posicionY2 !== undefined){
-				posY2 = 85; //hardcodeamos para testear la condicion del empate cumpliendose
+				posY2 = object.posicionY2;
 			}
 		}
         rectColour = ctx.fillStyle = "white";
