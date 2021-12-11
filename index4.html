@@ -15,7 +15,7 @@
     <h2>Colores:</h2>
     <p>Jugador 1: negro</p>
     <p>Jugador 2: blanco</p>
-    <form id="form">
+    <form id="form1">
         <h2>Jugador 1</h2>
         <label for="posicion1">Elegir posicion:</label>
 		<select name="posicion1" value="posicion1" id="posit1" required>
@@ -27,6 +27,9 @@
 		<option value="inferior-centro">Inferior centro</option>
 		<option value="inferior-derecha">Inferior derecha</option>
 		</select>
+        <button type="button" id="send1">Confirmar</button>
+    </form>
+    <form id="form2">
         <h2>Jugador 2</h2>
         <label for="posicion2">Elegir posicion:</label>
 		<select name="posicion2" value="posicion2" id="posit2" required>
@@ -38,7 +41,7 @@
 		<option value="inferior-centro">Inferior centro</option>
 		<option value="inferior-derecha">Inferior derecha</option>
 		</select>
-        <button type="button" id="send">Confirmar</button>
+        <button type="button" id="send2">Confirmar</button>
     </form>
     <canvas class="canvas" id="canvas" width="600" height="300"></canvas>
 <script src="index4.js"></script>
