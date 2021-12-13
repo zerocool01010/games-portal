@@ -4,20 +4,48 @@ const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d"); //creo el "tablero" canvas
 let values1 = [] //aca se guardan las posiciones del J1
 let values2 = [] //aca se guardan las posiciones del J2
+let winner = false //aca se guarda info de victoria
 
 canvas.addEventListener("click", redRect);
 document.querySelector("#send1").addEventListener("click", pickPos);
 document.querySelector("#send2").addEventListener("click", pickPos);
 
+/* function checkingIfWinners(winner){
+	if (winner == true) {
+		return winner;
+	} else {
+		winner = false
+		return winner;
+	}
+} */
+
 function redRect(){ // creo el rectangulo rojo
-    ctx.fillStyle = "red";
-    let redR = 0; //inicializo
-    let xPosition = ((Math.random())*600); //posicion X aleatoria * el ancho del tablero
-    let yPosition = ((Math.random())*300); //posicion Y aleatoria * el alto del tablero
-    console.log("La posición X del rect rojo es: " + xPosition);
-    console.log("La posición Y del rect rojo es: " + yPosition);
-    redR = ctx.fillRect(xPosition, yPosition, 20, 20); //se genera el rectangulo rojo con las posiciones y sus medidas
-	seeConditions(xPosition, yPosition); //paso sus posiciones como params
+	/* let winner = checkingIfWinners(); */
+	console.log(winner);
+	if (!(winner)) {
+		ctx.fillStyle = "red";
+		let redR = 0; //inicializo
+		let xPosition = ((Math.random())*600); //posicion X aleatoria * el ancho del tablero
+		let yPosition = ((Math.random())*300); //posicion Y aleatoria * el alto del tablero
+		console.log("La posición X del rect rojo es: " + xPosition);
+		console.log("La posición Y del rect rojo es: " + yPosition);
+		redR = ctx.fillRect(xPosition, yPosition, 20, 20); //se genera el rectangulo rojo con las posiciones y sus medidas
+		seeConditions(xPosition, yPosition); //paso sus posiciones como params
+	} else if (winner) {
+		alert("La partida ha finalizado");
+	} else if (winner === "empate"){
+		alert("¿Desea desempatar?");
+		let decision = prompt("Responda con SI o NO");
+		if (decision == "SI" || decision == "si"){
+			winner = false;
+		} else if (decision == "NO" || decision == "no") {
+			winner = true;
+		} else {
+			alert("Responda lo solicitado, por favor!");
+			redRect();
+		}
+	}
+    
 }
 
 function seeConditions(xPos, yPos){ // ve las condiciones para definir victoria, derrota o empate
@@ -46,10 +74,16 @@ function seeConditions(xPos, yPos){ // ve las condiciones para definir victoria,
     try {
         if (conditionX1 == true && conditionY1 == true && conditionX2 == true && conditionY2 == true) {  //se debe cumplir todo para empate
             alert("Empate");
+			/* checkingIfWinners(true); */
+			winner = "empate";
         } else if (conditionX2 == true && conditionY2 == true) { //las condiciones para que gane el 2
-            alert("El jugador 2 ha ganado"); 
+            alert("El jugador 2 ha ganado");
+			/* checkingIfWinners(true); */
+			winner = true;
         } else if (conditionX1 == true && conditionY1 == true) { //las condiciones para que gane el 1
             alert("El jugador 1 ha ganado");
+			/* checkingIfWinners(true); */
+			winner = true;
         }
     } catch (error) {
         console.error("Wrong!");
@@ -136,6 +170,5 @@ function playerPos(pos, rectC, x, y){ //recibe los params del J1 o J2
 	} else {
 		console.error("No ingresada la posicion");
 	}
-	
 }
 
