@@ -44,28 +44,32 @@ function redRect(){ // creo el rectangulo rojo
 			alert("Responda lo solicitado, por favor!");
 			redRect();
 		}
+	}    
+}
+
+function runningArrayValues(valuesN, obj){
+	let xOrYPos = null;
+	for (const object of valuesN){ //recorre el json para "X" o "Y" de los values1/2 con las posiciones del jugador 1/2
+		if(obj === "x"){
+			if(object.xPos !== null){
+				xOrYPos = object.xPos; //extrae la posicion en X
+			}
+		}
+		if(obj === "y"){
+			if(object.yPos !== null){
+				xOrYPos = object.yPos; //extrae la posicion en Y
+			}
+		}
 	}
-    
+	return xOrYPos;
 }
 
 function seeConditions(xPos, yPos){ // ve las condiciones para definir victoria, derrota o empate
-	let xPosP1, yPosP1, xPosP2, yPosP2 = undefined;
-	for (const object of values1){ //recorre el json values1 con las posiciones del jugador 1
-		if(object.xPos !== null){
-		xPosP1 = object.xPos; //extrae la posicion en X
-		}
-		if (object.yPos !== null){
-		yPosP1 = object.yPos; //extrae la posicion en Y
-		}
-	}
-	for (const object of values2){ // idem arriba pero para jugador 2
-		if(object.xPos !== null){
-		xPosP2 = object.xPos;
-		}
-		if (object.yPos !== null){
-		yPosP2 = object.yPos;
-		}
-	}	
+	let xPosP1 = runningArrayValues(values1, "x");
+	let yPosP1 = runningArrayValues(values1, "y");
+	let xPosP2 = runningArrayValues(values2, "x");
+	let yPosP2 = runningArrayValues(values2, "y");
+
     let conditionX1, conditionY1, conditionX2, conditionY2 = false; //condiciones de X e Y para jugadores 1 y 2
     conditionX1 = ((xPosP1-20) <= xPos) && (xPos <= (xPosP1+20)); //la pos en X del J1 respecto de la posicion en X del rect rojo
     conditionY1 = ((yPosP1-20) <= yPos) && (yPos <= (yPosP1+20)); //la pos en Y del J1 respecto de la posicion en Y del rect rojo
