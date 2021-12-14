@@ -97,20 +97,21 @@ function pickPos(){
 	let formData2 = new FormData(form2);
     let pos1 = formData1.get('posicion1'); //viene la zona de posicion ingresada en el select para el J1
     let pos2 = formData2.get('posicion2'); //viene la zona de posicion ingresada en el select para el J2
-    let rectColour = "a"; //inicializo
-	console.log("this works!");
 	console.log(pos1);
 	console.log(pos2);
     
 	if (pos1 !== undefined && values1[0] === undefined) { //si existe...
-        rectColour = ctx.fillStyle = "black"; //color negro al rect del J1
-		let posiciones = calculatePos(); //traigo las posiciones random de X e Y en un array
-		playerPos(pos1, rectColour, posiciones[0], posiciones[1]); //le mando los params
+        colourPosAndCallingCalculate("black", pos1);
 	} if (pos2 !== undefined && values2[0] === undefined){
-		rectColour = ctx.fillStyle = "white"; //color blanco al rect del J2
-		let posiciones = calculatePos(); //traigo las posiciones random de X e Y en un array
-		playerPos(pos2, rectColour, posiciones[0], posiciones[1]); //le mando los params
+		colourPosAndCallingCalculate("white", pos2);
 	}
+}
+
+function colourPosAndCallingCalculate(colour, pos){
+	let rectColour = "a"; //inicializo
+	rectColour = ctx.fillStyle = colour; //color negro/blanco al rect del J1/J2
+	let posiciones = calculatePos(); //traigo las posiciones random de X e Y en un array
+	playerPos(pos, rectColour, posiciones[0], posiciones[1]); //le mando los params
 }
 
 function calculatePos(){
