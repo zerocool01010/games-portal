@@ -31,7 +31,7 @@ function redRect(){ // creo el rectangulo rojo
 		console.log("La posición Y del rect rojo es: " + yPosition);
 		redR = ctx.fillRect(xPosition, yPosition, 20, 20); //se genera el rectangulo rojo con las posiciones y sus medidas
 		seeConditions(xPosition, yPosition); //paso sus posiciones como params
-	} else if (winner) {
+	} else if (winner && winner !== "empate") {
 		alert("La partida ha finalizado");
 	} else if (winner === "empate"){
 		alert("¿Desea desempatar?");
