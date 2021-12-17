@@ -10,26 +10,16 @@ canvas.addEventListener("click", redRect);
 document.querySelector("#send1").addEventListener("click", pickPos);
 document.querySelector("#send2").addEventListener("click", pickPos);
 
-/* function checkingIfWinners(winner){
-	if (winner == true) {
-		return winner;
-	} else {
-		winner = false
-		return winner;
-	}
-} */
-
 function redRect(){ // creo el rectangulo rojo
 	/* let winner = checkingIfWinners(); */
 	console.log(winner);
 	if (!(winner)) {
 		ctx.fillStyle = "red";
-		let redR = 0; //inicializo
 		let xPosition = ((Math.random())*600); //posicion X aleatoria * el ancho del tablero
 		let yPosition = ((Math.random())*300); //posicion Y aleatoria * el alto del tablero
 		console.log("La posición X del rect rojo es: " + xPosition);
 		console.log("La posición Y del rect rojo es: " + yPosition);
-		redR = ctx.fillRect(xPosition, yPosition, 20, 20); //se genera el rectangulo rojo con las posiciones y sus medidas
+		let redR = ctx.fillRect(xPosition, yPosition, 20, 20); //se genera el rectangulo rojo con las posiciones y sus medidas
 		seeConditions(xPosition, yPosition); //paso sus posiciones como params
 	} else if (winner && winner !== "empate") {
 		alert("La partida ha finalizado");
@@ -78,15 +68,12 @@ function seeConditions(xPos, yPos){ // ve las condiciones para definir victoria,
     try {
         if (conditionX1 == true && conditionY1 == true && conditionX2 == true && conditionY2 == true) {  //se debe cumplir todo para empate
             alert("Empate");
-			/* checkingIfWinners(true); */
 			winner = "empate";
         } else if (conditionX2 == true && conditionY2 == true) { //las condiciones para que gane el 2
             alert("El jugador 2 ha ganado");
-			/* checkingIfWinners(true); */
 			winner = true;
         } else if (conditionX1 == true && conditionY1 == true) { //las condiciones para que gane el 1
             alert("El jugador 1 ha ganado");
-			/* checkingIfWinners(true); */
 			winner = true;
         }
     } catch (error) {
@@ -104,7 +91,7 @@ function pickPos(){
 	console.log(pos1);
 	console.log(pos2);
     
-	if (pos1 !== undefined && values1[0] === undefined) { //si existe...
+	if (pos1 !== undefined && values1[0] === undefined) { //si existe pos y values no está definido...
         colourPosAndCallingCalculate("black", pos1);
 	} if (pos2 !== undefined && values2[0] === undefined){
 		colourPosAndCallingCalculate("white", pos2);
@@ -123,57 +110,45 @@ function calculatePos(){
 	xP = ((Math.random())*200); //calculo random para X (el resto de la medida se completa en playerPos)
 	yP = ((Math.random())*150); //calculo random para Y (el resto de la medida se completa en playerPos)
 	let arrayPos = [xP, yP]; //guardo las pos en un arreglo
+	console.log(arrayPos);
 	return arrayPos; //lo devuelvo
 }
 
 function playerPos(pos, rectC, x, y){ //recibe los params del J1 o J2
-	if (pos !== ""){
+	if (pos !== ""){ //para que no funcione con la opción por defecto del select: "Seleccionar posicion" cuyo value es ""
 		rectC; //negro (J1) o blanco (J2). Debe traerse para que el rect generado pueda leer el color (trae el fillStyle)
 		try {
-			if (pos === "superior-izquierda") {
-				rect = ctx.fillRect(x, y, 20, 20); //crea el rect en las posiciones random por defecto
-				
-			} 
-			else if (pos === "superior-centro") {
-				x += 200;
-				rect = ctx.fillRect(x, y, 20, 20); //crea el rect en las posiciones random por defecto pero le suma 200 a la pos X
-				
-			}
-			else if (pos === "superior-derecha") {
-				x += 400;
-				rect = ctx.fillRect(x, y, 20, 20); //crea el rect en las posiciones random por defecto pero le suma 400 a la pos X
-				
-			}
-			else if (pos === "inferior-izquierda") {
-				y += 150;
-				rect = ctx.fillRect(x, y, 20, 20); //crea el rect en las posiciones random por defecto pero le suma 150 a la pos Y  
-			} 
-			else if (pos === "inferior-centro") {
-				x += 200;
-				y += 150;
-				rect = ctx.fillRect(x, y, 20, 20); //crea el rect en las posiciones random por defecto pero le suma 150 a la pos Y y 200 a la X
-			}
-			else if (pos === "inferior-derecha") {
-				x += 400;
-				y += 150;
-				rect = ctx.fillRect(x, y, 20, 20); //crea el rect en las posiciones random por defecto pero le suma 150 a la pos Y y 400 a la X
+			let objectV = positByInput(pos, x, y, rectC);
+			if (rectC === "black"){ //si es del J1 === negro //si no pongo esto dentro del try el objectV queda como si nunca fuera leido
+				values1.push(objectV); //las mando al array values para que luego puedan ser leidas para las condiciones de victoria
+				console.log(values1);
+			} else if (rectC === "white"){ //si es del J1 === negro
+				values2.push(objectV); //las mando al array values para que luego puedan ser leidas para las condiciones de victoria
+				console.log(values2);
 			}
 		} catch (error) {
 			console.error("Wrong!");
-		}
-			console.log("La posición X del rect "+ rectC +" es: " + x);
-			console.log("La posición Y del rect "+ rectC +" es: " + y);
-			let object = { //guardo las posiciones traidas para J1 o J2 en este objecto
-				"xPos": x,
-				"yPos": y
-			}
-		if (rectC === "black"){ //si es del J1 === negro
-		values1.push(object); //las mando al array values para que luego puedan ser leidas para las condiciones de victoria
-		} else if (rectC === "white"){ //si es del J1 === negro
-		values2.push(object); //las mando al array values para que luego puedan ser leidas para las condiciones de victoria
 		}
 	} else {
 		console.error("No ingresada la posicion");
 	}
 }
 
+function positByInput(additionalValue, x, y, rectC){
+	rectC; //negro (J1) o blanco (J2). Debe traerse para que el rect generado pueda leer el color (trae el fillStyle)
+	console.log("here");
+		let toSplit = additionalValue;
+		let values = toSplit.split("/");
+		x += Number(values[0]);
+		y += Number(values[1]);
+	console.log(x);
+	console.log(y);
+	let rect = ctx.fillRect(x, y, 20, 20); //crea el rect en las posiciones random por defecto + los valores agregados de tenerlos
+
+	let object = { //guardo las posiciones traidas para J1 o J2 en este objecto
+		"xPos": x,
+		"yPos": y
+	}
+	console.log(object);
+	return object;
+}
