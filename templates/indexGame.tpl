@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manuel's rectangle game</title>
-    <link rel="stylesheet" href="index4.css">
-</head>
-<body>
-    <h1>Reglas:</h1>
+{include file="header.tpl"}
+<h1>Reglas:</h1>
     <p>El jugador 1 y 2 deberán ingresar una posición en el tablero. Luego deberán hacer click en el tablero para jugar hasta finalizar el juego.</p>
     <p>Finaliza cuando uno de los rectángulos rojos interactue con la posición ingresada por uno de los jugadores.</p>
     <p>Gana el jugador que primero obtiene la interacción.</p>
@@ -44,6 +35,5 @@
         <button type="button" id="send2">Confirmar</button>
     </form>
     <canvas class="canvas" id="canvas" width="600" height="300"></canvas>
-<script src="index4.js"></script>
-</body>
-</html>
+<script src="./js/index4.js"></script>
+{include file="footer.tpl"}
