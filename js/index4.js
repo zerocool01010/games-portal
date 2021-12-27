@@ -1,5 +1,27 @@
 "use strict";
 
+let vueApp1 = new Vue({
+	el: "#connector",
+	data: {
+		message: "Initializing Vue",
+		isThereAWinner: false,
+		undraw: false,
+		itWasDraw: false
+	},
+	methods: {
+        addGame: function(){
+            addResults();
+        },
+        addGameUndraw: function(){
+            addResultsU();
+        },
+        addGameD: function(){
+            addResultsD();
+        }
+    }
+});
+vueApp1.message = "Vue initialized";
+
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d"); //creo el "tablero" canvas
 let values1 = [] //aca se guardan las posiciones del J1
@@ -23,13 +45,16 @@ function redRect(){ // creo el rectangulo rojo
 		seeConditions(xPosition, yPosition); //paso sus posiciones como params
 	} else if (winner && winner !== "empate") {
 		alert("La partida ha finalizado");
+		vueApp1.isThereAWinner = true;
 	} else if (winner === "empate"){
 		alert("¿Desea desempatar?");
 		let decision = prompt("Responda con SI o NO");
 		if (decision == "SI" || decision == "si"){
 			winner = false;
+			vueApp1.undraw = true;
 		} else if (decision == "NO" || decision == "no") {
 			winner = true;
+			vueApp1.itWasDraw = true;
 		} else {
 			alert("Responda lo solicitado, por favor!");
 			redRect();
@@ -151,4 +176,38 @@ function positByInput(additionalValue, x, y, rectC){
 	}
 	console.log(object);
 	return object;
+}
+
+//a partir de acá las funciones API
+
+//
+const API_URL = "api/game";
+
+async function addResults(){
+    let obj = {
+        "victoria": true,
+        "empate": false,
+        "desempate": false
+    }
+    try {
+        let res = await fetch (API_URL, {
+            "method": "POST",
+            "headers": {"Content-type": "application/json"},
+            "body": JSON.stringify(obj)
+        });
+        if(res.status == 200){
+            console.log("Datos cargados!")
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function addResultsU(e){
+    e.preventDefault();
+}
+
+async function addResultsD(e){
+    e.preventDefault();
+
 }

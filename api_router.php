@@ -1,5 +1,4 @@
 <?php
-require_once "model/rectModel.php";
 require_once 'libs/Router.php';
 require_once 'controller/apiRectController.php';
 
