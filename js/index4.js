@@ -4,20 +4,11 @@ let vueApp1 = new Vue({
 	el: "#connector",
 	data: {
 		message: "Initializing Vue",
-		isThereAWinner: false,
-		undraw: false,
-		itWasDraw: false
+		isThereAWinner: false, //la usamos para guardar info del estado de si: hay ganador-no hay ganador
+		undraw: false, //para estado de si hay o no desempate
+		itWasDraw: false //para estado de si hubo o no empate
 	},
 	methods: {
-        addGame: function(){
-            addResults();
-        },
-        addGameUndraw: function(){
-            addResultsU();
-        },
-        addGameD: function(){
-            addResultsD();
-        }
     }
 });
 vueApp1.message = "Vue initialized";
@@ -26,16 +17,15 @@ const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d"); //creo el "tablero" canvas
 let values1 = [] //aca se guardan las posiciones del J1
 let values2 = [] //aca se guardan las posiciones del J2
-let winner = false //aca se guarda info de victoria
 
 canvas.addEventListener("click", redRect);
 document.querySelector("#send1").addEventListener("click", pickPos);
 document.querySelector("#send2").addEventListener("click", pickPos);
 
 function redRect(){ // creo el rectangulo rojo
-	/* let winner = checkingIfWinners(); */
-	console.log(winner);
-	if (!(winner)) {
+	/* let vueApp1.isThereAWinner = checkingIfWinners(); */
+	console.log(vueApp1.isThereAWinner);
+	if (!(vueApp1.isThereAWinner)) {
 		ctx.fillStyle = "red";
 		let xPosition = ((Math.random())*600); //posicion X aleatoria * el ancho del tablero
 		let yPosition = ((Math.random())*300); //posicion Y aleatoria * el alto del tablero
@@ -43,17 +33,16 @@ function redRect(){ // creo el rectangulo rojo
 		console.log("La posición Y del rect rojo es: " + yPosition);
 		let redR = ctx.fillRect(xPosition, yPosition, 20, 20); //se genera el rectangulo rojo con las posiciones y sus medidas
 		seeConditions(xPosition, yPosition); //paso sus posiciones como params
-	} else if (winner && winner !== "empate") {
+	} else if (vueApp1.isThereAWinner || vueApp1.itWasDraw && vueApp1.isThereAWinner !== "empate") {
 		alert("La partida ha finalizado");
-		vueApp1.isThereAWinner = true;
-	} else if (winner === "empate"){
+	} else if (vueApp1.isThereAWinner === "empate"){
 		alert("¿Desea desempatar?");
 		let decision = prompt("Responda con SI o NO");
 		if (decision == "SI" || decision == "si"){
-			winner = false;
+			vueApp1.isThereAWinner = false;
 			vueApp1.undraw = true;
 		} else if (decision == "NO" || decision == "no") {
-			winner = true;
+			vueApp1.isThereAWinner = false;
 			vueApp1.itWasDraw = true;
 		} else {
 			alert("Responda lo solicitado, por favor!");
@@ -93,13 +82,19 @@ function seeConditions(xPos, yPos){ // ve las condiciones para definir victoria,
     try {
         if (conditionX1 == true && conditionY1 == true && conditionX2 == true && conditionY2 == true) {  //se debe cumplir todo para empate
             alert("Empate");
-			winner = "empate";
+			vueApp1.isThereAWinner = "empate";
         } else if (conditionX2 == true && conditionY2 == true) { //las condiciones para que gane el 2
             alert("El jugador 2 ha ganado");
-			winner = true;
+			vueApp1.isThereAWinner = true;
+			if (vueApp1.isThereAWinner){
+				addResults();
+			}
         } else if (conditionX1 == true && conditionY1 == true) { //las condiciones para que gane el 1
             alert("El jugador 1 ha ganado");
-			winner = true;
+			vueApp1.isThereAWinner = true;
+			if (vueApp1.isThereAWinner){
+				addResults();
+			}
         }
     } catch (error) {
         console.error("Wrong!");
@@ -184,30 +179,21 @@ function positByInput(additionalValue, x, y, rectC){
 const API_URL = "api/game";
 
 async function addResults(){
-    let obj = {
-        "victoria": true,
-        "empate": false,
-        "desempate": false
-    }
-    try {
-        let res = await fetch (API_URL, {
-            "method": "POST",
-            "headers": {"Content-type": "application/json"},
-            "body": JSON.stringify(obj)
-        });
-        if(res.status == 200){
-            console.log("Datos cargados!")
-        }
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-async function addResultsU(e){
-    e.preventDefault();
-}
-
-async function addResultsD(e){
-    e.preventDefault();
-
+	let obj = {
+		"victoria": true,
+		"empate": false,
+		"desempate": false
+	}
+	try {
+		let res = await fetch (API_URL, {
+			"method": "POST",
+			"headers": {"Content-type": "application/json"},
+			"body": JSON.stringify(obj)
+		});
+		if(res.status == 200){
+			console.log("Datos cargados!")
+		}
+	} catch (e) {
+		console.error(e);
+	}
 }
