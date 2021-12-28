@@ -44,6 +44,9 @@ function redRect(){ // creo el rectangulo rojo
 		} else if (decision == "NO" || decision == "no") {
 			vueApp1.isThereAWinner = false;
 			vueApp1.itWasDraw = true;
+			if (vueApp1.itWasDraw){
+				addResults("draw");
+			}
 		} else {
 			alert("Responda lo solicitado, por favor!");
 			redRect();
@@ -87,13 +90,21 @@ function seeConditions(xPos, yPos){ // ve las condiciones para definir victoria,
             alert("El jugador 2 ha ganado");
 			vueApp1.isThereAWinner = true;
 			if (vueApp1.isThereAWinner){
-				addResults();
+				if (vueApp1.undraw){
+					addResults("undraw");
+				} else {
+					addResults(false);
+				}
 			}
         } else if (conditionX1 == true && conditionY1 == true) { //las condiciones para que gane el 1
             alert("El jugador 1 ha ganado");
 			vueApp1.isThereAWinner = true;
 			if (vueApp1.isThereAWinner){
-				addResults();
+				if (vueApp1.undraw){
+					addResults("undraw");
+				} else {
+					addResults(false);
+				}
 			}
         }
     } catch (error) {
@@ -178,11 +189,29 @@ function positByInput(additionalValue, x, y, rectC){
 //
 const API_URL = "api/game";
 
-async function addResults(){
-	let obj = {
-		"victoria": true,
-		"empate": false,
-		"desempate": false
+async function addResults(param){
+	let obj = {}
+	if (param){
+		if (param === "undraw"){
+			obj = {
+				"victoria": true,
+				"empate": false,
+				"desempate": true
+			}
+		}
+		} else if (param === "draw"){
+			obj = {
+				"victoria": false,
+				"empate": true,
+				"desempate": false
+			}
+		}
+	else {
+		obj = {
+			"victoria": true,
+			"empate": false,
+			"desempate": false
+		}
 	}
 	try {
 		let res = await fetch (API_URL, {
