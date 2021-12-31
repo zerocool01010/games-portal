@@ -6,9 +6,13 @@ let vueApp1 = new Vue({
 		message: "Initializing Vue",
 		isThereAWinner: false, //la usamos para guardar info del estado de si: hay ganador-no hay ganador
 		undraw: false, //para estado de si hay o no desempate
-		itWasDraw: false //para estado de si hubo o no empate
+		itWasDraw: false, //para estado de si hubo o no empate
+		resultsV: []
 	},
 	methods: {
+		getPrevR: function(){
+			getCountOfPreviousResults();
+		}
     }
 });
 vueApp1.message = "Vue initialized";
@@ -186,7 +190,6 @@ function positByInput(additionalValue, x, y, rectC){
 
 //a partir de acá las funciones API
 
-//
 const API_URL = "api/game";
 
 async function addResults(param){
@@ -224,5 +227,16 @@ async function addResults(param){
 		}
 	} catch (e) {
 		console.error(e);
+	}
+}
+
+async function getCountOfPreviousResults(){
+	try {
+		let response = await fetch(API_URL);
+		let results = await response.json();
+		console.log(results);
+		vueApp1.resultsV = results;
+	} catch (e) {
+		console.error(e)
 	}
 }

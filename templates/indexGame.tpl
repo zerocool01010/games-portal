@@ -35,6 +35,6 @@
         <button type="button" id="send2">Confirmar</button>
     </form>
     <canvas class="canvas" id="canvas" width="600" height="300"></canvas>
-{include file="Vue/apibuttons.tpl"}
+{include file="Vue/csrPreviousResults.tpl"}
 {include file="srcJs.tpl"}
 {include file="footer.tpl"}

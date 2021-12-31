@@ -13,6 +13,15 @@ class apiRectController {
         $this->view = new apiView();
     }
 
+    public function goToGetCountOfPreviousResults(){
+        $results = $this->model->getCountOfPreviousResults();
+        if ($results){
+            $this->view->response($results, 200);
+        } else {
+            $this->view->response("Not content found", 404);
+        }
+    }
+
     function goToAddGameResult(){
         $body = $this->getBody();
 
