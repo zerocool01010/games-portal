@@ -25,10 +25,10 @@ class apiRectController {
     function goToAddGameResult(){
         $body = $this->getBody();
 
-        if ($body->victoria && !($body->empate)){
+        if ($body->victoria && !($body->desempate)){
             $id = $this->model->addGameResult(true, false, false);
             $this->getResponse($id);
-        } else if ($body->empate && !($body->victoria)) {
+        } else if ($body->empate) {
             $id = $this->model->addGameResult(false, true, false);
             $this->getResponse($id);
         } else if ($body->desempate){
