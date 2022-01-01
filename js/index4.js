@@ -35,7 +35,7 @@ function redRect(){ // creo el rectangulo rojo
 			let yPosition = ((Math.random())*300); //posicion Y aleatoria * el alto del tablero
 			console.log("La posición X del rect rojo es: " + xPosition);
 			console.log("La posición Y del rect rojo es: " + yPosition);
-			let redR = ctx.fillRect(xPosition, yPosition, 35, 35); //se genera el rectangulo rojo con las posiciones y sus medidas
+			let redR = ctx.fillRect(xPosition, yPosition, 50, 50); //se genera el rectangulo rojo con las posiciones y sus medidas
 			seeConditions(xPosition, yPosition); //paso sus posiciones como params
 		} else if (vueApp1.isThereAWinner && vueApp1.isThereAWinner !== "empate" || vueApp1.itWasDraw) {
 			alert("La partida ha finalizado");
@@ -83,10 +83,10 @@ function seeConditions(xPos, yPos){ // ve las condiciones para definir victoria,
 	let yPosP2 = runningArrayValues(values2, "y");
 
     let conditionX1, conditionY1, conditionX2, conditionY2 = false; //condiciones de X e Y para jugadores 1 y 2
-    conditionX1 = ((xPosP1-35) <= xPos) && (xPos <= (xPosP1+35)); //la pos en X del J1 respecto de la posicion en X del rect rojo
-    conditionY1 = ((yPosP1-35) <= yPos) && (yPos <= (yPosP1+35)); //la pos en Y del J1 respecto de la posicion en Y del rect rojo
-    conditionX2 = ((xPosP2-35) <= xPos) && (xPos <= (xPosP2+35)); //la pos en X del J2 respecto de la posicion en X del rect rojo
-    conditionY2 = ((yPosP2-35) <= yPos) && (yPos <= (yPosP2+35)); //la pos en X del J2 respecto de la posicion en Y del rect rojo
+    conditionX1 = ((xPosP1-50) <= xPos) && (xPos <= (xPosP1+50)); //la pos en X del J1 respecto de la posicion en X del rect rojo
+    conditionY1 = ((yPosP1-50) <= yPos) && (yPos <= (yPosP1+50)); //la pos en Y del J1 respecto de la posicion en Y del rect rojo
+    conditionX2 = ((xPosP2-50) <= xPos) && (xPos <= (xPosP2+50)); //la pos en X del J2 respecto de la posicion en X del rect rojo
+    conditionY2 = ((yPosP2-50) <= yPos) && (yPos <= (yPosP2+50)); //la pos en X del J2 respecto de la posicion en Y del rect rojo
     try {
         if (conditionX1 == true && conditionY1 == true && conditionX2 == true && conditionY2 == true) {  //se debe cumplir todo para empate
             alert("Empate");
@@ -179,7 +179,7 @@ function positByInput(additionalValue, x, y, rectC){
 		y += Number(values[1]);
 	console.log(x);
 	console.log(y);
-	let rect = ctx.fillRect(x, y, 35, 35); //crea el rect en las posiciones random por defecto + los valores agregados de tenerlos
+	let rect = ctx.fillRect(x, y, 50, 50); //crea el rect en las posiciones random por defecto + los valores agregados de tenerlos
 
 	let object = { //guardo las posiciones traidas para J1 o J2 en este objecto
 		"xPos": x,
