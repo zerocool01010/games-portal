@@ -27,34 +27,35 @@ document.querySelector("#send1").addEventListener("click", pickPos);
 document.querySelector("#send2").addEventListener("click", pickPos);
 
 function redRect(){ // creo el rectangulo rojo
-	/* let vueApp1.isThereAWinner = checkingIfWinners(); */
-	console.log(vueApp1.isThereAWinner);
-	if (!(vueApp1.isThereAWinner) && !(vueApp1.itWasDraw)) {
-		ctx.fillStyle = "red";
-		let xPosition = ((Math.random())*600); //posicion X aleatoria * el ancho del tablero
-		let yPosition = ((Math.random())*300); //posicion Y aleatoria * el alto del tablero
-		console.log("La posición X del rect rojo es: " + xPosition);
-		console.log("La posición Y del rect rojo es: " + yPosition);
-		let redR = ctx.fillRect(xPosition, yPosition, 80, 80); //se genera el rectangulo rojo con las posiciones y sus medidas
-		seeConditions(xPosition, yPosition); //paso sus posiciones como params
-	} else if (vueApp1.isThereAWinner && vueApp1.isThereAWinner !== "empate" || vueApp1.itWasDraw) {
-		alert("La partida ha finalizado");
-	} else if (vueApp1.isThereAWinner === "empate"){
-		alert("¿Desea desempatar?");
-		let decision = prompt("Responda con SI o NO");
-		if (decision == "SI" || decision == "si"){
-			vueApp1.isThereAWinner = false;
-			vueApp1.undraw = true;
-		} else if (decision == "NO" || decision == "no") {
-			vueApp1.isThereAWinner = false;
-			vueApp1.itWasDraw = true;
-			if (vueApp1.itWasDraw){
-				addResults("draw");
+	if (false) {
+		console.log(vueApp1.isThereAWinner);
+		if (!(vueApp1.isThereAWinner) && !(vueApp1.itWasDraw)) {
+			ctx.fillStyle = "red";
+			let xPosition = ((Math.random())*600); //posicion X aleatoria * el ancho del tablero
+			let yPosition = ((Math.random())*300); //posicion Y aleatoria * el alto del tablero
+			console.log("La posición X del rect rojo es: " + xPosition);
+			console.log("La posición Y del rect rojo es: " + yPosition);
+			let redR = ctx.fillRect(xPosition, yPosition, 30, 30); //se genera el rectangulo rojo con las posiciones y sus medidas
+			seeConditions(xPosition, yPosition); //paso sus posiciones como params
+		} else if (vueApp1.isThereAWinner && vueApp1.isThereAWinner !== "empate" || vueApp1.itWasDraw) {
+			alert("La partida ha finalizado");
+		} else if (vueApp1.isThereAWinner === "empate"){
+			alert("¿Desea desempatar?");
+			let decision = prompt("Responda con SI o NO");
+			if (decision == "SI" || decision == "si"){
+				vueApp1.isThereAWinner = false;
+				vueApp1.undraw = true;
+			} else if (decision == "NO" || decision == "no") {
+				vueApp1.isThereAWinner = false;
+				vueApp1.itWasDraw = true;
+				addResults(false, true, false);
+			} else {
+				alert("Responda lo solicitado, por favor!");
+				redRect();
 			}
-		} else {
-			alert("Responda lo solicitado, por favor!");
-			redRect();
 		}
+	} else {
+		alert("No ingresada la posición de los jugadores aún");
 	}    
 }
 
@@ -82,10 +83,10 @@ function seeConditions(xPos, yPos){ // ve las condiciones para definir victoria,
 	let yPosP2 = runningArrayValues(values2, "y");
 
     let conditionX1, conditionY1, conditionX2, conditionY2 = false; //condiciones de X e Y para jugadores 1 y 2
-    conditionX1 = ((xPosP1-80) <= xPos) && (xPos <= (xPosP1+80)); //la pos en X del J1 respecto de la posicion en X del rect rojo
-    conditionY1 = ((yPosP1-80) <= yPos) && (yPos <= (yPosP1+80)); //la pos en Y del J1 respecto de la posicion en Y del rect rojo
-    conditionX2 = ((xPosP2-80) <= xPos) && (xPos <= (xPosP2+80)); //la pos en X del J2 respecto de la posicion en X del rect rojo
-    conditionY2 = ((yPosP2-80) <= yPos) && (yPos <= (yPosP2+80)); //la pos en X del J2 respecto de la posicion en Y del rect rojo
+    conditionX1 = ((xPosP1-30) <= xPos) && (xPos <= (xPosP1+30)); //la pos en X del J1 respecto de la posicion en X del rect rojo
+    conditionY1 = ((yPosP1-30) <= yPos) && (yPos <= (yPosP1+30)); //la pos en Y del J1 respecto de la posicion en Y del rect rojo
+    conditionX2 = ((xPosP2-30) <= xPos) && (xPos <= (xPosP2+30)); //la pos en X del J2 respecto de la posicion en X del rect rojo
+    conditionY2 = ((yPosP2-30) <= yPos) && (yPos <= (yPosP2+30)); //la pos en X del J2 respecto de la posicion en Y del rect rojo
     try {
         if (conditionX1 == true && conditionY1 == true && conditionX2 == true && conditionY2 == true) {  //se debe cumplir todo para empate
             alert("Empate");
@@ -95,9 +96,9 @@ function seeConditions(xPos, yPos){ // ve las condiciones para definir victoria,
 			vueApp1.isThereAWinner = true;
 			if (vueApp1.isThereAWinner){
 				if (vueApp1.undraw){
-					addResults("undraw");
+					addResults(true, false, true);
 				} else {
-					addResults(false);
+					addResults(true, false, false);
 				}
 			}
         } else if (conditionX1 == true && conditionY1 == true) { //las condiciones para que gane el 1
@@ -105,9 +106,9 @@ function seeConditions(xPos, yPos){ // ve las condiciones para definir victoria,
 			vueApp1.isThereAWinner = true;
 			if (vueApp1.isThereAWinner){
 				if (vueApp1.undraw){
-					addResults("undraw");
+					addResults(true, false, true);
 				} else {
-					addResults(false);
+					addResults(true, false, false);
 				}
 			}
         }
@@ -178,7 +179,7 @@ function positByInput(additionalValue, x, y, rectC){
 		y += Number(values[1]);
 	console.log(x);
 	console.log(y);
-	let rect = ctx.fillRect(x, y, 80, 80); //crea el rect en las posiciones random por defecto + los valores agregados de tenerlos
+	let rect = ctx.fillRect(x, y, 30, 30); //crea el rect en las posiciones random por defecto + los valores agregados de tenerlos
 
 	let object = { //guardo las posiciones traidas para J1 o J2 en este objecto
 		"xPos": x,
@@ -192,30 +193,9 @@ function positByInput(additionalValue, x, y, rectC){
 
 const API_URL = "api/game";
 
-async function addResults(param){
-	let obj = {}
-	if (param){
-		if (param === "undraw"){
-			obj = {
-				"victoria": true,
-				"empate": false,
-				"desempate": true
-			}
-		}
-		} else if (param === "draw"){
-			obj = {
-				"victoria": false,
-				"empate": true,
-				"desempate": false
-			}
-		}
-	else {
-		obj = {
-			"victoria": true,
-			"empate": false,
-			"desempate": false
-		}
-	}
+async function addResults(bool1, bool2, bool3){
+	let obj = objToAdd(bool1, bool2, bool3);
+	console.log(obj);
 	try {
 		let res = await fetch (API_URL, {
 			"method": "POST",
@@ -228,6 +208,15 @@ async function addResults(param){
 	} catch (e) {
 		console.error(e);
 	}
+}
+
+function objToAdd(victory, draw, undraw){
+	let obj = {
+		"victoria": victory,
+		"empate": draw,
+		"desempate": undraw
+	}
+	return obj;
 }
 
 async function getCountOfPreviousResults(){
