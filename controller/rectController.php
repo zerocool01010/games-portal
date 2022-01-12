@@ -17,6 +17,10 @@ class rectController {
         $this->view->showRectGame();
     }
 
+    function goToSnake(){
+        $this->view->showSnake();
+    }
+
     function goToRenderErrorPage(){
         $this->view->showRenderErrorPage();
     }

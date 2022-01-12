@@ -19,6 +19,11 @@ class rectView {
         $this->smarty->display('indexGame.tpl');
     }
 
+    function showSnake(){
+        $this->smarty->assign('title', 'Snake on Move');
+        $this->smarty->display('snakeGame.tpl');
+    }
+
     public function showRenderErrorPage(){
         $this->smarty->display('error.tpl');
     }

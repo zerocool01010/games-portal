@@ -20,6 +20,9 @@ require_once 'controller/rectController.php';
         case 'rect':
             $rectController->goToRectGame();
             break;
+        case 'snake':
+            $rectController->goToSnake();
+            break;
         default:
             $rectController->goToRenderErrorPage();
     }
