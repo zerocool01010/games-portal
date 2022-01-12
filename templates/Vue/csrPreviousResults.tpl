@@ -1,5 +1,5 @@
 {literal}
-	<div id="connector">
+	<div id="connector" class="container-results">
 		<div v-if="isThereAWinner == true">
 			<a v-on:click.prevent="getPrevR()" href="#">Ver resultados previos</a>
 			<div v-if="resultsV">
