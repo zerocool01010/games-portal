@@ -1,0 +1,1 @@
+<script src="./js/snake.js"></script>

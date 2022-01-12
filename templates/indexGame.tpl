@@ -36,5 +36,5 @@
     </form>
     <canvas class="canvas" id="canvas" width="600" height="300"></canvas>
 {include file="Vue/csrPreviousResults.tpl"}
-{include file="srcJs.tpl"}
+{include file="srcJsRect.tpl"}
 {include file="footer.tpl"}

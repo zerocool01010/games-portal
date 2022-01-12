@@ -174,7 +174,7 @@ function positByInput(additionalValue, x, y, rectC){
 	rectC; //negro (J1) o blanco (J2). Debe traerse para que el rect generado pueda leer el color (trae el fillStyle)
 	console.log("here");
 		let toSplit = additionalValue;
-		let values = toSplit.split("/");
+		let values = toSplit.split("/"); //este metodo separa lo que viene dividido por el caracter entre parentesis(en este caso el "/") y devuelve un array
 		x += Number(values[0]);
 		y += Number(values[1]);
 	console.log(x);
