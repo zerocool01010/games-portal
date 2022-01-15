@@ -35,15 +35,17 @@ function createSnake(width, height){
 			console.log("La nueva altura almacenada es de: " + vueSnake.savedHeight);
 			generateEscapeDoor();
 			watchConditionsForLosing();
+			watchConditionsForWinning()
 		}
 		if (width > 0 || width < 0){
 			vueSnake.savedWidth = width + vueSnake.savedWidth;
 			console.log("El nuevo ancho almacenado es de: " + vueSnake.savedWidth);
 			generateEscapeDoor();
 			watchConditionsForLosing();
+			watchConditionsForWinning()
 		}
     } else {
-		let positOfDoor = generateEscapeDoor(); //genero la puerta de salida por primera vez //traigo un arreglo simple de dos posiciones (valores x e y de la puerta)
+		let positOfDoor = generateEscapeDoor(); //genero la puerta de salida por primera vez //traigo un arreglo simple de dos posiciones (valores x e y de la puerta, y un tercer valor que indica si está al fondo o a la derecha)
 		vueSnake.escapeDoor = positOfDoor;
 		console.log("Este sería el array que traigo con los valores X e Y de la puerta: " + vueSnake.escapeDoor[0] + " y " + vueSnake.escapeDoor[1]);
 		vueSnake.thereIsEscapeDoor = true;
@@ -112,9 +114,9 @@ function generateEscapeDoor(){
 	} else { //si no existe aun
 		let arrayXaY = doorPosit(); //traigo un array con las posiciones X e Y de la door
 		if (arrayXaY[2] === "bottom"){ //por la condicion que puse en doorPosit, X solo puede ser = a 397 si cae en el rightSide */
-			let blueDoorRect = ctx.fillRect(arrayXaY[0], arrayXaY[1], 10, 40);
-		} if (arrayXaY[2] === "right") {
 			let blueDoorRect = ctx.fillRect(arrayXaY[0], arrayXaY[1], 40, 10);
+		} if (arrayXaY[2] === "right") {
+			let blueDoorRect = ctx.fillRect(arrayXaY[0], arrayXaY[1], 10, 40);
 		}
 		return arrayXaY; //la retorno
 	}
@@ -147,7 +149,7 @@ function getRandomInt() {
 	return randNumb;
 }
 
-console.log("holaSet 6.5");
+console.log("holaSet 6.7");
 
 function generateObstacles(obstacleAlreadySetUp){
 	ctx.fillStyle = "black";
@@ -202,4 +204,24 @@ function watchConditionsForLosing(){
 			}
 		}
 	}
+}
+
+function watchConditionsForWinning(){
+	if (vueSnake.escapeDoor[2] === "bottom"){
+		if (vueSnake.savedWidth+10 >= vueSnake.escapeDoor[0] && vueSnake.savedWidth <= vueSnake.escapeDoor[0]+40){
+			if (vueSnake.savedHeight+40 >= vueSnake.escapeDoor[1]){
+				console.log("El jugador ha ganado. La serpiente ha encontrado la salida");
+				vueSnake.isTheGameOver = true;
+			}
+		}
+	}
+	if (vueSnake.escapeDoor[2] === "right"){
+		if (vueSnake.savedHeight+40 >= vueSnake.escapeDoor[1] && vueSnake.savedHeight <= vueSnake.escapeDoor[1]+40){
+			if (vueSnake.savedWidth+10 >= vueSnake.escapeDoor[0]){
+				console.log("El jugador ha ganado. La serpiente ha encontrado la salida");
+				vueSnake.isTheGameOver = true;
+			}
+		}
+	}
+	
 }
