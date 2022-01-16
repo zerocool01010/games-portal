@@ -49,7 +49,8 @@ function createSnake(width, height){
 		vueSnake.escapeDoor = positOfDoor;
 		console.log("Este sería el array que traigo con los valores X e Y de la puerta: " + vueSnake.escapeDoor[0] + " y " + vueSnake.escapeDoor[1]);
 		vueSnake.thereIsEscapeDoor = true;
-		renderAllTheObstacles();
+		let dificultad = document.querySelector("#dificultad").value; //viene la dificultad ingresada por el usuario expresada en un numero
+		renderAllTheObstacles(dificultad); //el numero debe decir la cantidad de obstáculos en el juego
 		vueSnake.obstaclesSetUp = true;
 	}
 	console.log("El ancho que se sumó por param es de " + width);
@@ -149,7 +150,7 @@ function getRandomInt() {
 	return randNumb;
 }
 
-console.log("holaSet 6.7");
+console.log("holaSet 6.9");
 
 function generateObstacles(obstacleAlreadySetUp){
 	ctx.fillStyle = "black";
@@ -162,26 +163,21 @@ function generateObstacles(obstacleAlreadySetUp){
 	}
 }
 
-function renderAllTheObstacles(){
-	let obst0Position = generateObstacles();
-	let obst1Position = generateObstacles();
-	let obst2Position = generateObstacles();
-	let obst3Position = generateObstacles();
-	let obst4Position = generateObstacles();
-	vueSnake.obsPositions.push(obst0Position);
-	vueSnake.obsPositions.push(obst1Position);
-	vueSnake.obsPositions.push(obst2Position);
-	vueSnake.obsPositions.push(obst3Position);
-	vueSnake.obsPositions.push(obst4Position);
+function renderAllTheObstacles(num){ //refactorizar con ciclo FOR
+	for (let i = 0; i <= num; i++){
+		let obsPosit = generateObstacles();
+		vueSnake.obsPositions.push(obsPosit);
+	}
 }
 
 function keepingAllTheObstaclesInCanvas(){
 	if (vueSnake.obstaclesSetUp){
-		generateObstacles(vueSnake.obsPositions[0]);
-		generateObstacles(vueSnake.obsPositions[1]);
-		generateObstacles(vueSnake.obsPositions[2]);
-		generateObstacles(vueSnake.obsPositions[3]);
-		generateObstacles(vueSnake.obsPositions[4]);
+		let pos = -1;
+		for (let index = 0; index < vueSnake.obsPositions.length; index++) {
+			/* const element = vueSnake.obsPositions[index]; */
+			pos++;
+			generateObstacles(vueSnake.obsPositions[pos])
+		}
 	}
 }
 
