@@ -1,5 +1,8 @@
 {include file="header.tpl"}
 <h1>Reglas:</h1>
+<p>Busque la puerta de salida (en azul) con la viborita (rojo). Evite los obstáculos para no perder</p>
+<p>Cargue la cantidad a mover, para desplazarse por el tablero. Luego mueva, presionando el botón</p>
+<p>Elija la dificultad antes de empezar, entre un mínimo de 3(muy fácil) y un máximo de 14</p>
 <div id="connector">
 	<form id="form">
 		<button type="button" id="create">Crear snake</button>
