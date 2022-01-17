@@ -48,5 +48,5 @@
 	</div>
 	{include file="Vue/csrPreviousResults.tpl"}
 </div>
-{include file="srcJs.tpl"}
+{include file="srcJsRect.tpl"}
 {include file="footer.tpl"}
