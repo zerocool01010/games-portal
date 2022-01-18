@@ -25,7 +25,7 @@ const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d"); //creo el "tablero" canvas
 document.querySelector("#create").addEventListener("click", createSnake);
 document.querySelector("#move").addEventListener("click", receiveValues);
-document.querySelector("#delete").addEventListener("click", deleteSnake);
+/* document.querySelector("#delete").addEventListener("click", deleteSnake); */
 
 function createSnake(width, height){
 	if (!(vueSnake.isTheGameOver)){
@@ -50,7 +50,7 @@ function createSnake(width, height){
 		console.log("Este sería el array que traigo con los valores X e Y de la puerta: " + vueSnake.escapeDoor[0] + " y " + vueSnake.escapeDoor[1]);
 		vueSnake.thereIsEscapeDoor = true;
 		let dificultad = document.querySelector("#dificultad").value; //viene la dificultad ingresada por el usuario expresada en un numero
-		renderAllTheObstacles(dificultad); //el numero debe decir la cantidad de obstáculos en el juego
+		renderAllTheObstacles(dificultad-1); //el numero debe decir la cantidad de obstáculos en el juego
 		vueSnake.obstaclesSetUp = true;
 	}
 	console.log("El ancho que se sumó por param es de " + width);
@@ -97,7 +97,8 @@ function receiveValues(){
 	let form = document.querySelector("#form");
 	let formData = new FormData(form);
 	let direction = formData.get('moving'); //viene como valor uno de los siguientes: down-up-right-left
-	let quantity = Number(formData.get('quant')); //valor numerico agregado por input
+	/* let quantity = Number(formData.get('quant')); */ //valor numerico agregado por input
+	let quantity = Number(document.querySelector("#move").value); //viene un valor fijo para mover de 10
 	moveSnake(direction, quantity);
 }
 
@@ -149,7 +150,7 @@ function getRandomInt() {
 	return randNumb;
 }
 
-console.log("holaSet 6.9");
+console.log("holaSet 7");
 
 function generateObstacles(obstacleAlreadySetUp){
 	ctx.fillStyle = "black";
