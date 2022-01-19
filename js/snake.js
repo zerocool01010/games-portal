@@ -107,19 +107,22 @@ function receiveValues(){
 function generateEscapeDoor(){
 	ctx.fillStyle = "blue";
 	if (vueSnake.thereIsEscapeDoor) { // si existe...
-		 if (vueSnake.escapeDoor[2] === "right") {
-			let blueDoorRect = ctx.fillRect(vueSnake.escapeDoor[0], vueSnake.escapeDoor[1], 10, 40);
-		} else { 
-			let blueDoorRect = ctx.fillRect(vueSnake.escapeDoor[0], vueSnake.escapeDoor[1], 40, 10);
-		} 
-	} else { //si no existe aun
-		let arrayXaY = doorPosit(); //traigo un array con las posiciones X e Y de la door
-		if (arrayXaY[2] === "bottom"){ //por la condicion que puse en doorPosit, X solo puede ser = a 397 si cae en el rightSide */
-			let blueDoorRect = ctx.fillRect(arrayXaY[0], arrayXaY[1], 40, 10);
-		} if (arrayXaY[2] === "right") {
-			let blueDoorRect = ctx.fillRect(arrayXaY[0], arrayXaY[1], 10, 40);
+		for (let elem of vueSnake.escapeDoor){
+			if (elem.side === "right") {
+			let blueDoorRect = ctx.fillRect(elem.x, elem.y, 10, 40);
+			} else { 
+			let blueDoorRect = ctx.fillRect(elem.x, elem.y, 40, 10);
+			} 
 		}
-		return arrayXaY; //la retorno
+		 
+	} else { //si no existe aun
+		let obj = doorPosit(); //traigo un array con las posiciones X e Y de la door
+		if (obj.side === "bottom"){ //por la condicion que puse en doorPosit, X solo puede ser = a 397 si cae en el rightSide */
+			let blueDoorRect = ctx.fillRect(obj.x, obj.y, 40, 10);
+		} else {
+			let blueDoorRect = ctx.fillRect(obj.x, obj.y, 10, 40);
+		}
+		return obj; //la retorno
 	}
 	
 }
@@ -128,16 +131,24 @@ function doorPosit(){
 	let randomSide = getRandomInt(); // traigo un 1 o un 2
 	if (randomSide == 1) {
 		let y = 397;
-		let x = (Math.random()) * 399;
+		let x = randomCanvasNum(399);
 		/* if (x == 397) {
 			x += 1; //esto lo hago para evitar que pueda quedar en 397 y se pueda cumplir la condicion de control en generateEscapeDoor
 		} */
-		let bottomSide = [x, y, "bottom"];
+		let bottomSide = [{
+			"x": x,
+			"y": y,
+			"side": "bottom"
+		}]
 		return bottomSide;
 	} else {
 		let x = 397;
-		let y = (Math.random()) * 399;
-		let rightSide = [x, y, "right"];
+		let y = randomCanvasNum(399);
+		let rightSide = [{
+			"x": x,
+			"y": y,
+			"side": "right"
+		}]
 		return rightSide;
 	}
 }
@@ -150,7 +161,7 @@ function getRandomInt() {
 	return randNumb;
 }
 
-console.log("holaSet 7");
+console.log("holaSet 7.3");
 
 function generateObstacles(obstacleAlreadySetUp){
 	ctx.fillStyle = "black";
@@ -159,7 +170,7 @@ function generateObstacles(obstacleAlreadySetUp){
 	let blackObstacle = ctx.fillRect(objPos.x, objPos.y, 30, 30);
 	return objPos;
 	} else {
-	let blackObstacle = ctx.fillRect(obstacleAlreadySetUp.x, obstacleAlreadySetUp.y, 30, 30);
+	let blackObstacle = ctx.fillRect(obstacleAlreadySetUp.x, obstacleAlreadySetUp.y, 30, 30); //esto es para mantener los valores de los obstáculos
 	}
 }
 
@@ -182,8 +193,8 @@ function keepingAllTheObstaclesInCanvas(){
 }
 
 function randomPositionForCanvas(){
-	let xPos = Math.random()*360;
-	let yPos = Math.random()*360;
+	let xPos = randomCanvasNum(360);
+	let yPos = randomCanvasNum(360);
 	let obj = {
 		"x": xPos,
 		"y": yPos
@@ -191,33 +202,45 @@ function randomPositionForCanvas(){
 	return obj;
 }
 
-function watchConditionsForLosing(){
+function watchConditionsForLosing(){ //revisa las condiciones de derrota, si el jugador perdió
 	for (const elem of vueSnake.obsPositions) {
-		if (vueSnake.savedWidth <= elem.x+30 && vueSnake.savedWidth+10 >= elem.x) {
-			if (vueSnake.savedHeight <= elem.y+30 && vueSnake.savedHeight+40 >= elem.y){
-				console.log("El jugador ha perdido contra un obstáculo");
-				vueSnake.isTheGameOver = true;
+		let bool = areasComparison(vueSnake.savedWidth, elem.x, vueSnake.savedHeight, elem.y, vueSnake.savedHeight, elem.y, 10, 30, 30, 40);
+		if (bool) {
+			console.log("El jugador ha perdido contra un obstáculo");
+			vueSnake.isTheGameOver = true;			
+		}
+	}
+}
+
+function watchConditionsForWinning(){ //revisa las condiciones de victoria, si el jugador ganó
+	for (let elem of vueSnake.escapeDoor){
+		if (elem.side === "bottom"){
+			let bool = areasComparison(vueSnake.savedWidth, elem.x, 0, 0, vueSnake.savedHeight, elem.y, 10, 40, 0, 40);
+			if (bool) {
+				console.log("El jugador ha ganado. La serpiente ha encontrado la salida");
+				vueSnake.isTheGameOver = true;			
+			}
+		} else {
+			let bool = areasComparison(vueSnake.savedHeight, elem.y, 0, 0, vueSnake.savedWidth, elem.x, 40, 40, 0, 10);
+			if (bool) {
+				console.log("El jugador ha ganado. La serpiente ha encontrado la salida");
+				vueSnake.isTheGameOver = true;			
 			}
 		}
 	}
 }
 
-function watchConditionsForWinning(){
-	if (vueSnake.escapeDoor[2] === "bottom"){
-		if (vueSnake.savedWidth+10 >= vueSnake.escapeDoor[0] && vueSnake.savedWidth <= vueSnake.escapeDoor[0]+40){
-			if (vueSnake.savedHeight+40 >= vueSnake.escapeDoor[1]){
-				console.log("El jugador ha ganado. La serpiente ha encontrado la salida");
-				vueSnake.isTheGameOver = true;
-			}
+function areasComparison(measure1, measure2, measure3, measure4, measure5, measure6, add1, add2, add3, add4){ //se encarga de medir condiciones de victoria o derrota recibiendo valores por param
+	if (measure1 + add1 >= measure2 && measure1 <= measure2 + add2){
+		if (measure3 <= measure4 + add3 && measure5 + add4 >= measure6){
+			return true;
 		}
+	} else {
+		return false;
 	}
-	if (vueSnake.escapeDoor[2] === "right"){
-		if (vueSnake.savedHeight+40 >= vueSnake.escapeDoor[1] && vueSnake.savedHeight <= vueSnake.escapeDoor[1]+40){
-			if (vueSnake.savedWidth+10 >= vueSnake.escapeDoor[0]){
-				console.log("El jugador ha ganado. La serpiente ha encontrado la salida");
-				vueSnake.isTheGameOver = true;
-			}
-		}
-	}
-	
+}
+
+function randomCanvasNum(num){ //genera numeros random para valores del tablero
+	let rand = (Math.random()) * num;
+	return rand;
 }
