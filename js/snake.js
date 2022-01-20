@@ -16,7 +16,8 @@ let vueSnake = new Vue({
 		obstaclesSetUp: false,
 		obsPositions: [],
 		isTheGameOver: false,
-		vertical: false
+		vertical: false,
+		alreadyMoved: false
 	},
 	methods: {
 		/* getPrevR: function(){
@@ -110,16 +111,25 @@ function moveSnake(direction, quantity){
 	}
 }
 
+function moveSnakeAuto(){
+	if (vueSnake.alreadyMoved && !(vueSnake.isTheGameOver)){
+		receiveValues();
+	}
+}
+
+setInterval(moveSnakeAuto, 300);
+
 function receiveValues(){
 	let form = document.querySelector("#form");
 	let formData = new FormData(form);
 	let direction = formData.get('moving'); //viene como valor uno de los siguientes: down-up-right-left
 	/* let quantity = Number(formData.get('quant')); */ //valor numerico agregado por input
-	let quantity = Number(document.querySelector("#move").value); //viene un valor fijo para mover de 10
-	moveSnake(direction, quantity);
+	/* let quantity = Number(document.querySelector("#move").value); */ //viene un valor fijo para mover de 10
+	moveSnake(direction, 10);
+	vueSnake.alreadyMoved = true;
 }
 
-
+console.log("holaSet 8.7");
 
 function generateEscapeDoor(){
 	ctx.fillStyle = "blue";
@@ -179,8 +189,6 @@ function getRandomInt() {
 	console.log("El numero random es: " +randNumb);
 	return randNumb;
 }
-
-console.log("holaSet 8.5");
 
 function generateObstacles(obstacleAlreadySetUp){
 	ctx.fillStyle = "black";
