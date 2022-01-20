@@ -59,6 +59,7 @@ function gameStarting(width, height){
 				console.log("El nuevo ancho almacenado es de: " + vueSnake.savedWidth);
 			}
 			generateEscapeDoor();
+			watchLimitsCondition();
 			watchConditionsFor(vueSnake.obsPositions, "perdido");
 			watchConditionsFor(vueSnake.escapeDoor, "ganado");
 		} else {
@@ -179,7 +180,7 @@ function getRandomInt() {
 	return randNumb;
 }
 
-console.log("holaSet 8.4");
+console.log("holaSet 8.5");
 
 function generateObstacles(obstacleAlreadySetUp){
 	ctx.fillStyle = "black";
@@ -218,6 +219,13 @@ function randomPositionForCanvas(){
 		"y": yPos
 	}
 	return obj;
+}
+
+function watchLimitsCondition(){
+	if (vueSnake.savedWidth + vueSnake.width > 400 || vueSnake.savedWidth < 0 || vueSnake.savedHeight + vueSnake.height > 400 || vueSnake.savedHeight < 0){
+		vueSnake.isTheGameOver = true;
+		console.log("El jugador ha perdido porque ha tocado los bordes");
+	}
 }
 
 function watchConditionsFor(toRun, result){ //revisa las condiciones de victoria o derrota recorriendo a las puertas u obstáculos
