@@ -59,8 +59,8 @@ function gameStarting(width, height){
 				console.log("El nuevo ancho almacenado es de: " + vueSnake.savedWidth);
 			}
 			generateEscapeDoor();
-			watchConditionsForLosing();
-			watchConditionsForWinning();
+			watchConditionsFor(vueSnake.obsPositions, "perdido");
+			watchConditionsFor(vueSnake.escapeDoor, "ganado");
 		} else {
 			let positOfDoor = generateEscapeDoor(); //genero la puerta de salida por primera vez //traigo un json de valores x e y de la puerta, y un tercer valor que indica si está al fondo o a la derecha
 			vueSnake.escapeDoor = positOfDoor;
@@ -179,7 +179,7 @@ function getRandomInt() {
 	return randNumb;
 }
 
-console.log("holaSet 8.3");
+console.log("holaSet 8.4");
 
 function generateObstacles(obstacleAlreadySetUp){
 	ctx.fillStyle = "black";
@@ -220,34 +220,27 @@ function randomPositionForCanvas(){
 	return obj;
 }
 
-function watchConditionsForLosing(){ //revisa las condiciones de derrota, si el jugador perdió
-	console.log(vueSnake.obsPositions);
+function watchConditionsFor(toRun, result){ //revisa las condiciones de victoria o derrota recorriendo a las puertas u obstáculos
 	let bool = false;
-	for (let elem of vueSnake.obsPositions) {
-		bool = areasComparisonL(elem);
+	for (let elem of toRun){
+		bool = areasComparison(elem, result);
 		if (bool) {
-		console.log("El jugador ha perdido contra un obstáculo");
+		console.log("El jugador ha " + result + ". La serpiente ha terminado su recorrido");
 		vueSnake.isTheGameOver = true;			
 		}
 	}
 	
 }
 
-function watchConditionsForWinning(){ //revisa las condiciones de victoria, si el jugador ganó
-	let bool = false;
-	for (let elem of vueSnake.escapeDoor){
-		bool = areasComparisonW(elem);
-		if (bool) {
-		console.log("El jugador ha ganado. La serpiente ha encontrado la salida");
-		vueSnake.isTheGameOver = true;			
-		}
+function areasComparison(runned, possibleResult){ //se encarga de medir condiciones de victoria o derrota recibiendo elementos por param de puerta u obstaculo
+	let xComp, yComp = false;
+	if (possibleResult === "perdido"){
+		xComp = xComparison(vueSnake.obstWH, runned.x);
+		yComp = yComparison(vueSnake.obstWH, runned.y);
+	} else if (possibleResult === "ganado"){
+		xComp = xComparison(vueSnake.doorWidth, runned.x);
+		yComp = yComparison(vueSnake.doorHeight, runned.y);
 	}
-	
-}
-
-function areasComparisonW(door){ //se encarga de medir condiciones de victoria o derrota recibiendo valores por param
-	let xComp = xComparisonW(door.x);
-	let yComp = yComparisonW(door.y);
 	if (xComp && yComp){
 		return true;
 	} else {
@@ -255,42 +248,16 @@ function areasComparisonW(door){ //se encarga de medir condiciones de victoria o
 	}
 }
 
-function areasComparisonL(obsObj){
-	let xComp = xComparisonL(obsObj.x);
-	let yComp = yComparisonL(obsObj.y);
-	if (xComp && yComp){
+function xComparison(ObstDoorWidth, posX){
+	if (vueSnake.savedWidth + vueSnake.width >= posX && vueSnake.savedWidth <= posX + ObstDoorWidth){
 		return true;
 	} else {
 		return false;
 	}
 }
 
-function xComparisonL(obsX){
-	if (vueSnake.savedWidth + vueSnake.width >= obsX && vueSnake.savedWidth <= obsX + vueSnake.obstWH){
-		return true;
-	} else {
-		return false;
-	}
-}
-
-function yComparisonL(obsY){
-	if (vueSnake.savedHeight + vueSnake.height >= obsY && vueSnake.savedHeight <= obsY + vueSnake.obstWH){
-		return true;
-	} else {
-		return false;
-	}
-}
-
-function xComparisonW(doorX){
-	if (vueSnake.savedWidth + vueSnake.width >= doorX && vueSnake.savedWidth <= doorX + vueSnake.doorWidth){
-		return true;
-	} else {
-		return false;
-	}
-}
-
-function yComparisonW(doorY){
-	if (vueSnake.savedHeight + vueSnake.height >= doorY){
+function yComparison(ObstDoorHeight, posY){
+	if (vueSnake.savedHeight + vueSnake.height >= posY && vueSnake.savedHeight <= posY + ObstDoorHeight){
 		return true;
 	} else {
 		return false;
