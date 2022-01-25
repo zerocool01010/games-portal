@@ -17,7 +17,9 @@ let vueSnake = new Vue({
 		obsPositions: [],
 		isTheGameOver: false,
 		vertical: false,
-		alreadyMoved: false
+		alreadyMoved: false,
+		setUpLaterals: false,
+		laterals: []
 	},
 	methods: {
 		/* getPrevR: function(){
@@ -129,8 +131,6 @@ function receiveValues(){
 	vueSnake.alreadyMoved = true;
 }
 
-console.log("holaSet 8.7");
-
 function generateEscapeDoor(){
 	ctx.fillStyle = "blue";
 	if (vueSnake.thereIsEscapeDoor) { // si existe...
@@ -206,10 +206,17 @@ function renderAllTheObstacles(num){ //refactorizar con ciclo FOR
 		let obsPosit = generateObstacles();
 		vueSnake.obsPositions.push(obsPosit);
 	}
+	if (!(vueSnake.setUpLaterals)){
+		generateLateralsBooleansForObs();
+		vueSnake.setUpLaterals = true;
+		console.log("esto solo se tiene que llamar una vez");
+	}
+	
 }
 
 function keepingAllTheObstaclesInCanvas(){
 	if (vueSnake.obstaclesSetUp){
+		obstaclesMovement();
 		let pos = -1;
 		for (let index = 0; index < vueSnake.obsPositions.length; index++) {
 			/* const element = vueSnake.obsPositions[index]; */
@@ -227,6 +234,52 @@ function randomPositionForCanvas(){
 		"y": yPos
 	}
 	return obj;
+}
+console.log("holaSet 9.6");
+
+function obstaclesMovement(){
+	console.log(vueSnake.laterals);
+	console.log(vueSnake.obsPositions);
+	for (let obsObj of vueSnake.obsPositions){
+		let pos = vueSnake.obsPositions.indexOf(obsObj);
+		console.log(pos);
+		
+		checkIfTouchedLateral(obsObj.x, 400, true, false, pos); //para chequear lateral derecho
+		checkIfTouchedLateral(0, obsObj.x, false, true, pos); //para chequear lateral izquierdo
+		
+		if (vueSnake.laterals[pos].rightL){ //esto no está funcionando porque por alguna razón el cambio del valor de obsObj.x se refleja en el tablero pero no en consola
+			obsObj.x -= 10;
+		} else if (vueSnake.laterals[pos].leftL){
+			obsObj.x += 10;
+		} else {
+			obsObj.x += 10;
+		}
+		let theNewObj = {
+			"x": obsObj.x,
+			"y": obsObj.y
+		}
+		vueSnake.obsPositions.splice(pos, 1, theNewObj);
+	}
+}
+
+function checkIfTouchedLateral(ref1, ref2, boolRight, boolLeft, pos){
+	if (ref1 >= ref2){
+		let latObj = {
+			"leftL": boolLeft,
+			"rightL": boolRight
+		}
+		vueSnake.laterals.splice(pos, 1, latObj);
+	}
+}
+
+function generateLateralsBooleansForObs(){
+	let obj = {
+		"leftL": false,
+		"rightL": false
+	}
+	for (let index = 0; index < vueSnake.obsPositions.length; index++){
+		vueSnake.laterals.push(obj);
+	}
 }
 
 function watchLimitsCondition(){
